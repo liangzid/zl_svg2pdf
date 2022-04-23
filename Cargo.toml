@@ -1,0 +1,42 @@
+[package]
+name = "zl_svg2pdf"
+default-run = "svg2pdf"
+version = "1.0.0"
+authors = ["Zi Liang <2273067585@qq.com>"]
+edition = "2021"
+rust-version = "1.56"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "svg2pdf"
+path = "src/main.rs"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+eframe = "0.17.0" # Gives us egui, epi and web+native backends
+serde = { version = "1", features = ["derive"], optional = true }
+svg2pdf="0.3"
+rfd="0.8.2"
+# nalgebra="0.7.0"
+
+[features]
+default = []
+persistence = ["eframe/persistence", "serde"] # Enable if you want to persist app state on shutdown
+
+[profile.release]
+opt-level = 2 # fast and small wasm
+
+[patch.crates-io]
+
+# If you want to use the bleeding edge version of `egui`:
+# eframe = { git = "https://github.com/emilk/egui", branch = "master" }
+
+# If you fork https://github.com/emilk/egui you can test with:
+# eframe = { path = "../egui/eframe" }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+console_error_panic_hook = "0.1.6"
+tracing-wasm = "0.2"
